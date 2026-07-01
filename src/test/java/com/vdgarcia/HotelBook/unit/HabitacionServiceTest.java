@@ -102,9 +102,46 @@ public class HabitacionServiceTest {
         assertEquals(SUITE,actualizado.getTipo());
         assertEquals(104,actualizado.getNumero());
         verify(this.habitacionRepository,times(1)).save(any(Habitacion.class));
+    }
+
+
+    @Test
+    void testActualizar_HabitacionNotFound(){
+        List<ReservacionDTO> reservacionesDTO = new ArrayList<>();
+        Hotel hotel = new Hotel();
+        HabitacionDTO habitacionDBDTO = new HabitacionDTO(1L,104,SUITE,1505.2,true,hotel.getId(),reservacionesDTO);
+        when(this.habitacionRepository.findById(1L)).thenReturn(Optional.empty());
+        RuntimeException exception = assertThrows(RuntimeException.class, ()->{
+            this.habitacionService.actualizar(1L,habitacionDBDTO);
+        });
+        assertEquals("No se encontro la habitacion con el id: " + 1L, exception.getMessage());
+        verify(this.habitacionRepository,times(1)).findById(1L);
+    }
+
+
+    @Test
+    void testEliminar_HabitacionFound(){
+        List<Reservacion> reservaciones = new ArrayList<>();
+        Hotel hotel = new Hotel();
+        Habitacion habitacionDB = new Habitacion(1L,105,SUPERIOR,1505.2,true,hotel,reservaciones);
+        when(this.habitacionRepository.findById(1L)).thenReturn(Optional.of(habitacionDB));
+        HabitacionDTO dto = this.habitacionService.eliminar(1L);
+        assertNotNull(dto);
+        verify(this.habitacionRepository, times(1)).findById(1L);
+        verify(this.habitacionRepository,times(1)).delete(any(Habitacion.class));
 
     }
 
+    @Test
+    void testEliminar_HabitacionNotFound(){
+        when(this.habitacionRepository.findById(1L)).thenReturn(Optional.empty());
+        RuntimeException exception = assertThrows(RuntimeException.class, ()->{
+            this.habitacionService.eliminar(1L);
+        });
+        assertEquals("No se encontro la habitacion con el id: " + 1L, exception.getMessage());
+        verify(this.habitacionRepository,times(1)).findById(1L);
+
+    }
 
 
 
