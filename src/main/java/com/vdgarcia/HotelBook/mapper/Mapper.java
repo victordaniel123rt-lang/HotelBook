@@ -74,6 +74,9 @@ public class Mapper {
                 .tipo(dto.getTipo())
                 .disponible(dto.getDisponible())
                 .precioPorNoche(dto.getPrecioPorNoche())
+                .hotel(
+                        Hotel.builder().id(dto.getHotel()).build()
+                )
                 .reservaciones(lista)
                 .build();
     }
