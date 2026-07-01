@@ -19,7 +19,6 @@ import java.util.List;
 @Tag(name = "Reservaciones", description = "Controlador para la gestión de reservas de habitaciones")
 public class ReservacionController {
     private final ReservacionService service;
-
     @GetMapping
     @Operation(summary = "Listar todas las reservaciones", description = "Muestra todos los registros hasta el momento de las reservaciones que se han realizado")
     @ApiResponses(value = {
@@ -29,7 +28,6 @@ public class ReservacionController {
     public ResponseEntity<List<ReservacionDTO>> buscarTodos(){
         return ResponseEntity.ok(service.buscarTodos());
     }
-
     @GetMapping("/{id}")
     @Operation(summary = "Encontrar una reservacion por id", description = "Muestra una reservacion en especifica correspondiente a un id")
     @ApiResponses(value = {
@@ -39,7 +37,6 @@ public class ReservacionController {
     public ResponseEntity<ReservacionDTO> buscarPorId(@PathVariable Long id){
         return ResponseEntity.ok(service.buscarPorId(id));
     }
-
     @PostMapping
     @Operation(summary = "Crear una nueva reservación", description = "Registra una reserva en el sistema. No se debe enviar el ID en el cuerpo.")
     @ApiResponses(value = {
@@ -49,8 +46,12 @@ public class ReservacionController {
     public ResponseEntity<ReservacionDTO> crear(@RequestBody ReservacionDTO dto){
         return ResponseEntity.ok(service.crear(dto));
     }
-
     @DeleteMapping("/{id}")
+    @Operation(summary = "Elimina una reservación", description = "Elimina una reservación creada con anterioridad. Es necesario el ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200/2004", description = "Elemento eliminado con exito"),
+            @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos o inconsistentes")
+    })
     public ResponseEntity<ReservacionDTO> eliminar(@PathVariable Long id){
         return ResponseEntity.ok(service.eliminar(id));
     }
