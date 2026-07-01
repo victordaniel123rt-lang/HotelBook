@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.vdgarcia.HotelBook.entity.Tipo.SUPERIOR;
+import static com.vdgarcia.HotelBook.entity.Tipo.SUITE;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -86,6 +87,24 @@ public class HabitacionServiceTest {
         assertEquals(1L,nuevo.getId());
         verify(this.habitacionRepository,times(1)).save(any(Habitacion.class));
     }
+
+    @Test
+    void testActualizar_HabitacionFound(){
+        List<ReservacionDTO> reservacionesDTO = new ArrayList<>();
+        List<Reservacion> reservaciones = new ArrayList<>();
+        Hotel hotel = new Hotel();
+        Habitacion habitacionDB = new Habitacion(1L,105,SUPERIOR,1505.2,true,hotel,reservaciones);
+        HabitacionDTO habitacionDBDTO = new HabitacionDTO(1L,104,SUITE,1505.2,true,hotel.getId(),reservacionesDTO);
+        when(this.habitacionRepository.findById(1L)).thenReturn(Optional.of(habitacionDB));
+        when(this.habitacionRepository.save(any(Habitacion.class))).thenReturn(habitacionDB);
+        HabitacionDTO actualizado = this.habitacionService.actualizar(1L,habitacionDBDTO);
+        assertNotNull(actualizado);
+        assertEquals(SUITE,actualizado.getTipo());
+        assertEquals(104,actualizado.getNumero());
+        verify(this.habitacionRepository,times(1)).save(any(Habitacion.class));
+
+    }
+
 
 
 
