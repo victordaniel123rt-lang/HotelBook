@@ -26,7 +26,7 @@ public class ReservacionController {
     }
 
     @PostMapping
-    public ResponseEntity<ReservacionDTO> crear(@RequestBody ReservacionDTO dto, @PathVariable Long id){
+    public ResponseEntity<ReservacionDTO> crear(@RequestBody ReservacionDTO dto){
         return ResponseEntity.ok(service.crear(dto));
     }
 
