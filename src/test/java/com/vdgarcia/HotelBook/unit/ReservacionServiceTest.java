@@ -156,6 +156,29 @@ public class ReservacionServiceTest {
     }
 
 
+    @Test
+    void testCrear_ThirdException(){
+        List<Reservacion> reservaciones = new ArrayList<>();
+        List<ReservacionDTO> reservacionesDTO = new ArrayList<>();
+        Hotel hoteL = new Hotel();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yy");
+        LocalDate fechaEntrada = LocalDate.parse("22-07-26",formato);
+        LocalDate fechaSalida = LocalDate.parse("20-07-26",formato);
+        LocalDate fechaReserva = LocalDate.parse("01-07-26",formato);
+        Cliente cliente = new Cliente();
+        Habitacion habitacion = new Habitacion(1L,105,SUPERIOR,1505.2,true,hoteL,reservaciones);
+        HabitacionDTO habitacionDTO = new HabitacionDTO(1L,105,SUPERIOR,1505.2,true, hoteL.getId(),reservacionesDTO);
+        Reservacion reservacion = new Reservacion(1L,fechaEntrada,fechaSalida,fechaReserva,true,425.0,cliente, habitacion);
+        ReservacionDTO reservacionDTO = new ReservacionDTO(1L,fechaEntrada,fechaSalida,fechaReserva,true,cliente.getId(),cliente.getDni(),habitacion.getId(),425.0);
+        RuntimeException exception = assertThrows(RuntimeException.class, ()->{
+            this.service.crear(reservacionDTO);
+        });
+        assertEquals("La fecha de salida debe ser posterior a la fecha de entrada.", exception.getMessage());
+
+
+    }
+
+
 
 
 
