@@ -25,4 +25,16 @@ public class ClienteDTO {
     @Schema(description = "DNI personal del cliente", example = "40123123")
     private Long dni;
     private List<ReservacionDTO> reservaciones;
+
+
+    public ClienteDTO( String nombre, String apellido,String email,  Long dni, Integer telefono,  List<ReservacionDTO> reservaciones) {
+        this.apellido = apellido;
+        this.dni = dni;
+        this.email = email;
+        this.nombre = nombre;
+        this.reservaciones = reservaciones;
+        this.telefono = telefono;
+    }
 }
+
+
