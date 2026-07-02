@@ -94,6 +94,18 @@ public class HotelServiceTest {
         assertNotNull(eliminar);
      }
 
+     @Test
+    void testEliminar_NotFound(){
+        Long id = 6L;
+
+        RuntimeException exception = assertThrows(RuntimeException.class, ()->{
+            this.service.eliminar(id);
+        });
+        assertEquals("No se encontro el hotel con el id: " + id, exception.getMessage());
+
+     }
+
+
 
 
 
