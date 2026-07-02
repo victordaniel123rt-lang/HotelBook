@@ -36,6 +36,7 @@ public class Mapper {
                  .fechaReserva(entity.getFechaReserva())
                  .habitacion(entity.getHabitacion().getId())
                  .clieteDni(entity.getCliente().getDni())
+                 .total(entity.getTotal())
                  .build();
     }
     public static ClienteDTO toClienteDTO(Cliente entity){
